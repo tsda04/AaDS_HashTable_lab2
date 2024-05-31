@@ -202,27 +202,54 @@ public:
     }*/
 };
 int main(){
-    HashTable hash_table1(20,2);//with
-    hash_table1.print();
-    HashTable hash_table2(20,0);//without
-    hash_table2.print();
-    hash_table2.insert_or_assign(203456, 134676);
-    hash_table2.print();
-    if (hash_table2.contains(134676)) std::cout << "Exist" << std::endl;
-    /*HashTable hash_table3(hash_table1);
-    hash_table3.print();
-    HashTable hash_table4(5);
-    hash_table4.print();*/
-    //hash_table1 = hash_table2;
+    //HashTable hash_table1(20,2);//with
     //hash_table1.print();
-    HashTable hash_table5(2);
-    hash_table5.insert_or_assign(203456, 134676);
-    hash_table5.print();
-    hash_table5.insert(203456, 134677);
-    //hash_table5.erase(203456);
-    hash_table5.print();
-    std::cout << hash_table5.count(203456) << std::endl;
-    int search_value = *(hash_table5.search(203456));
-    std::cout << search_value << std::endl;
+    //HashTable hash_table2(20,0);//without
+    //hash_table2.print();
+    //hash_table2.insert_or_assign(203456, 134676);
+    //hash_table2.print();
+    //if (hash_table2.contains(134676)) std::cout << "Exist" << std::endl;
+    ///*HashTable hash_table3(hash_table1);
+    //hash_table3.print();
+    //HashTable hash_table4(5);
+    //hash_table4.print();*/
+    ////hash_table1 = hash_table2;
+    ////hash_table1.print();
+    //HashTable hash_table5(2);
+    //hash_table5.insert_or_assign(203456, 134676);
+    //hash_table5.print();
+    //hash_table5.insert(203456, 134677);
+    ////hash_table5.erase(203456);
+    //hash_table5.print();
+    //std::cout << hash_table5.count(203456) << std::endl;
+    //int search_value = *(hash_table5.search(203456));
+    //std::cout << search_value << std::endl;
+    const int array_size = 50;
+    int array[array_size];
+    for (int i = 0; i < array_size; i++) {
+        array[i] = rand() % array_size;
+    }
+    HashTable hash_table(array_size);
+    //инициализация 
+
+
+    for (int i = 0; i < array_size; i++) {
+        std::cout << array[i] << std::endl;
+        hash_table.insert(array[i], 0);
+    }
+
+    int max_count = 0;
+    int max_value = 0;
+
+    for (int i = 0; i < array_size; i++) {
+        int count = hash_table.count(array[i]);
+
+        if (count > max_count) {
+            max_count = count;
+            max_value = array[i];
+        }
+    }
+
+    std::cout << "Number: " << max_value << ", count: " << max_count << std::endl;
     return 0;
 }
