@@ -67,15 +67,34 @@ public:
         }
         std::cout << std::endl;
     }
+    HashTable& operator=(const HashTable& other) {
+        if (this == &other) {
+            return *this;
+        }
+
+        delete[] array_values;
+
+        table_size = other.table_size;
+        array_values = new std::list<Node>[table_size];
+
+        for (int i = 0; i < table_size; i++) {
+            array_values[i] = other.array_values[i];
+        }
+
+        return *this;
+    }
+
 };
 int main(){
-    HashTable hash_table1(20, 3,4);//with
+    HashTable hash_table1(20, 3, 4);//with
     hash_table1.print();
-    HashTable hash_table2(20, 3, 0);//without
+    HashTable hash_table2(15, 3, 0);//without
     hash_table2.print();
     /*HashTable hash_table3(hash_table1);
     hash_table3.print();
     HashTable hash_table4(5);
     hash_table4.print();*/
+    hash_table1 = hash_table2;
+    hash_table1.print();
     return 0;
 }
