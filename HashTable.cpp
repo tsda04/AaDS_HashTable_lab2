@@ -224,32 +224,28 @@ int main(){
     //std::cout << hash_table5.count(203456) << std::endl;
     //int search_value = *(hash_table5.search(203456));
     //std::cout << search_value << std::endl;
-    const int array_size = 50;
+    const int array_size = 100;
     int array[array_size];
     for (int i = 0; i < array_size; i++) {
-        array[i] = rand() % array_size;
+        array[i] = rand()%1000;
     }
     HashTable hash_table(array_size);
+
+    int max_count = 0;
+    int max_value = 0;
     //инициализация 
 
 
     for (int i = 0; i < array_size; i++) {
         std::cout << array[i] << std::endl;
-        hash_table.insert(array[i], 0);
-    }
-
-    int max_count = 0;
-    int max_value = 0;
-
-    for (int i = 0; i < array_size; i++) {
-        int count = hash_table.count(array[i]);
-
+        hash_table.insert_or_assign(array[i], hash_table.count(array[i])+1);
+        int count = *(hash_table.search(array[i])); //возвращает vallue - т.е. текущее кол-во эл
         if (count > max_count) {
             max_count = count;
             max_value = array[i];
         }
     }
-
+    hash_table.print();
     std::cout << "Number: " << max_value << ", count: " << max_count << std::endl;
     return 0;
 }
