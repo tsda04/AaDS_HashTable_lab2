@@ -22,27 +22,27 @@ public:
     HashTable(int table_size) : table_size(table_size) {
         array_values = new std::list<Node>[table_size];
     }
-    
-    HashTable(int size, int range, bool with_collisions) : table_size(size) { //конструктор, заполняющий хэш таблицу случайными значениями (1 - с коллизиями, 0 - без)
+
+    HashTable(int size, int range, int collisions) : table_size(size) { //конструктор, заполняющий хэш таблицу случайными значениями (с коллизиями или без с указанием максимального их кол-ва)
         array_values = new std::list<Node>[size];
-        if (!with_collisions) { //без коллизий
-            for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
+            if (!collisions) { //без коллизий
                 int key = size * rand() + i;
                 int value = rand() % range;
 
                 array_values[i].push_back(Node(key, value));
             }
-        }
-        else {
-            for (int i = 0; i < size; i++) {
-                int key = rand();
-                int index = hash_function(key);
-                int value = rand() % range;
-
-                array_values[index].push_back(Node(key, value));
+            else {
+                int n = 1 + rand() % collisions; //max кол-во коллизий
+                for (int j = 0; j < n; j++) {
+                    int key = size * rand() + i;
+                    int value = rand() % range;
+                    array_values[i].push_back(Node(key, value));
+                }
             }
         }
     }
+
     HashTable(const HashTable& other) { //конструктор копирования
         table_size = other.table_size;
         array_values = new std::list<Node>[table_size];
@@ -69,13 +69,13 @@ public:
     }
 };
 int main(){
-    HashTable hash_table1(20, 3,1);
+    HashTable hash_table1(20, 3,4);//with
     hash_table1.print();
-    HashTable hash_table2(20, 3, 0);
+    HashTable hash_table2(20, 3, 0);//without
     hash_table2.print();
-    HashTable hash_table3(hash_table1);
+    /*HashTable hash_table3(hash_table1);
     hash_table3.print();
     HashTable hash_table4(5);
-    hash_table4.print();
+    hash_table4.print();*/
     return 0;
 }
