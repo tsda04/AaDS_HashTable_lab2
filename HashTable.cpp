@@ -97,6 +97,17 @@ public:
 
         return *this;
     }
+    
+    void insert(int key, int value) {
+        int index = hash_function(key);
+        if (array_values[index].empty()) {
+            array_values[index] = std::list<Node>{ Node(key, value) };
+        }
+        else {
+            array_values[index].push_back(Node(key, value));
+        }
+    }
+
     void insert_or_assign(int key, int value) {
         int index = hash_function(key);
       
@@ -149,6 +160,20 @@ public:
 
         return false;
     }
+
+    int count(int key) {
+        int count = 0;
+
+        for (int i = 0; i < table_size; i++) {
+            for (auto& node : array_values[i]) {
+                if (node.key == key) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
 };
 int main(){
     HashTable hash_table1(20,2);//with
@@ -167,8 +192,9 @@ int main(){
     HashTable hash_table5(2);
     hash_table5.insert_or_assign(203456, 134676);
     hash_table5.print();
-    hash_table5.insert_or_assign(203457, 134677);
-    hash_table5.erase(203456);
+    hash_table5.insert(203456, 134677);
+    std::cout << hash_table5.count(203456)<< std::endl;
+    //hash_table5.erase(203456);
     hash_table5.print();
     return 0;
 }
