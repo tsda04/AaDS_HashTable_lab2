@@ -2,6 +2,7 @@
 #include <iostream>
 #include <list>
 #include <cmath>
+#include <vector>
 
 struct Node {
     int key;
@@ -163,17 +164,42 @@ public:
 
     int count(int key) {
         int count = 0;
-
-        for (int i = 0; i < table_size; i++) {
-            for (auto& node : array_values[i]) {
+        int index = hash_function(key);
+            for (auto& node : array_values[index]) {
                 if (node.key == key) {
                     count++;
                 }
             }
-        }
-
         return count;
     }
+    int* search(int key) {
+        int index = hash_function(key);
+
+        for (auto& node : array_values[index]) {
+            if (node.key == key) {
+                return &node.value;
+            }
+        }
+
+        return nullptr;
+    }
+    /*std::vector<int>* search(int key) {
+        int index = hash_function(key);
+
+        std::vector<int>* values = new std::vector<int>();
+
+        for (auto& node : array_values[index]) {
+            if (node.key == key) {
+                values->push_back(node.value);
+            }
+        }
+
+        if (values->empty()) {
+            return nullptr;
+        }
+
+        return values;
+    }*/
 };
 int main(){
     HashTable hash_table1(20,2);//with
@@ -193,8 +219,10 @@ int main(){
     hash_table5.insert_or_assign(203456, 134676);
     hash_table5.print();
     hash_table5.insert(203456, 134677);
-    std::cout << hash_table5.count(203456)<< std::endl;
     //hash_table5.erase(203456);
     hash_table5.print();
+    std::cout << hash_table5.count(203456) << std::endl;
+    int search_value = *(hash_table5.search(203456));
+    std::cout << search_value << std::endl;
     return 0;
 }
